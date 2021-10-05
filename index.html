@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Listado de Universidades</h1>
+<input id="seach-country" type="text"
+       placeholder="Pais"/>
+<input id="seach-name" type="text"
+       placeholder="Nombre"/>
+
+<button type="button" id="search"> Buscar</button>
+<div style="margin-top: 20px;">
+    <table>
+        <thead>
+            <tr>
+                <th>Pais </th>
+                <th>Nombre </th>
+            </tr>
+        </thead>
+        <tbody id="result-list">
+
+        </tbody>
+
+
+    </table>
+</div>
+<script src="assets/js/lib/jquery.min.js"></script>
+<script src="assets/js/lib/bootstrap.min.js"></script>
+<script>
+    const API_URL = "http://universities.hipolabs.com/search"
+
+    var ShowList = function () {
+        var search_country = $('#seach-country').val()
+        var search_name = $('#seach-name').val()
+        var datos = {};
+        if (search !== '') {
+            datos['country'] = search_country
+            datos['name'] = search_name
+        }
+        $.ajax({
+            url: API_URL ,
+            type: 'get',
+            data: datos,
+            dataType: 'json',
+            success: function (data) {
+                $('#result-list').html("")
+                for (var i = 0; i < data.length; i++) {
+
+                     $('#result-list').append("<tr><td>"+ data[i].country + "</td>"+ "<td>"+ data[i].name + "</td></tr>");
+                }
+
+            }
+
+        });
+
+    };
+    $('#search').on("click", ShowList);
+    ShowList()
+
+</script>
+<!--<script src="assets/api.js" type="module"></script>-->
+</body>
+</html>
